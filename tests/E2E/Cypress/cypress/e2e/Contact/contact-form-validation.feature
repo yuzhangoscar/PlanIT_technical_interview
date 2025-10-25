@@ -18,7 +18,7 @@ Feature: Contact Form - Mandatory Field Validation
             | Message          | Message is required     |
 
     @must-pass @happy-path
-    Scenario: Fill mandatory fields and verify errors disappear
+    Scenario Outline: Fill mandatory fields and verify errors disappear
         When I navigate to the Contact page
         Then I fill in the mandatory fields with valid data
             | Field Name        | Value                  |
@@ -32,3 +32,11 @@ Feature: Contact Form - Mandatory Field Validation
             | Email            |
             | Message          |
         Then the form submission should be successful
+
+        Examples:
+            | Iteration Number |
+            | Iteration 1   |
+            | Iteration 2   |
+            | Iteration 3   |
+            | Iteration 4   |
+            | Iteration 5   |
