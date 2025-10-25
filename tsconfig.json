@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "lib": ["es5", "dom"],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "moduleResolution": "bundler",
+        "module": "es2015",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "types": ["cypress", "node", "@badeball/cypress-cucumber-preprocessor"]
+    },
+    "include": [
+        "tests/E2E/Cypress/cypress/**/*.ts",
+        "tests/E2E/Cypress/cypress/**/*.js",
+        "**/*.feature",
+        "cypress.config.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
