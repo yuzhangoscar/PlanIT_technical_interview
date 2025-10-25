@@ -1,10 +1,19 @@
 {
+  "name": "planit-technical-interview",
+  "version": "1.0.0",
+  "description": "Cypress E2E testing project for PlanIT technical interview",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test": "cypress run"
+  },
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^23.2.1",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.7",
     "@cucumber/cucumber": "^12.2.0",
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@types/node": "^24.9.1",
+    "cypress": "^15.5.0",
     "typescript": "^5.9.3"
   }
 }
