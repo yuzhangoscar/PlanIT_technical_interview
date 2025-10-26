@@ -1,9 +1,5 @@
 # PlanIT Technical Interview - Cypress E2E Tests
 
-[![Cypress E2E Tests](https://github.com/brucechang/PlanIT_technical_interview/actions/workflows/cypress-tests.yml/badge.svg)](https://github.com/brucechang/PlanIT_technical_interview/actions/workflows/cypress-tests.yml)
-[![Lint Check](https://github.com/brucechang/PlanIT_technical_interview/actions/workflows/lint.yml/badge.svg)](https://github.com/brucechang/PlanIT_technical_interview/actions/workflows/lint.yml)
-[![Create Release](https://github.com/brucechang/PlanIT_technical_interview/actions/workflows/create-release.yml/badge.svg)](https://github.com/brucechang/PlanIT_technical_interview/actions/workflows/create-release.yml)
-
 This project contains automated end-to-end tests for the PlanIT web application using Cypress with Cucumber BDD. It runs on github actions every 30 mins; it can also be cloned and run locally via Docker containers.
 
 ## Quick Start
