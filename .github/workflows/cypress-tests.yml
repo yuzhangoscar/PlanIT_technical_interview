@@ -1,6 +1,8 @@
 name: Cypress E2E Tests (Docker)
 
 on:
+  schedule:
+    - cron: '*/30 * * * *'  # Runs every 30 minutes
   workflow_dispatch:
     inputs:
       description:
