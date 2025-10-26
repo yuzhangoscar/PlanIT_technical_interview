@@ -1,5 +1,12 @@
 # PlanIT Technical Interview - Cypress E2E Tests
 
+![Cypress](https://img.shields.io/badge/Cypress-15.5.0-green)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-blue)
+![Node.js](https://img.shields.io/badge/Node.js-18+-brightgreen)
+![Docker](https://img.shields.io/badge/Docker-20+-blue)
+![Cucumber](https://img.shields.io/badge/Cucumber-BDD-yellow)
+![License](https://img.shields.io/badge/License-MIT-green)
+
 This project contains automated end-to-end tests for the PlanIT web application using Cypress with Cucumber BDD. It runs on github actions every 30 mins; it can also be cloned and run locally via Docker containers.
 
 ## Quick Start
