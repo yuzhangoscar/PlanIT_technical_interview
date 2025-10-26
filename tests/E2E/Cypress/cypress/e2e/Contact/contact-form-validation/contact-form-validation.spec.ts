@@ -5,8 +5,8 @@ import { BasePage } from '../../../pages/base.page';
 import { When, Then, DataTable } from '@badeball/cypress-cucumber-preprocessor';
 import '../../../step-definitions/shared-steps';
 
-const contactPage = new ContactPage();
-const basePage = new BasePage(URLS.base_url);
+const contactPage: ContactPage = new ContactPage();
+const basePage: BasePage = new BasePage(URLS.base_url);
 
 When('I click the Submit button', () => {
   contactPage.clickSubmitButton();

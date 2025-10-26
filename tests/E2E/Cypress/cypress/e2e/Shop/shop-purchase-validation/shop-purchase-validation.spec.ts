@@ -6,9 +6,9 @@ import '../../../step-definitions/shared-steps';
 import { ShopPage } from '../../../pages/Shop.page';
 import { CartPage } from '../../../pages/Cart.page';
 
-const shopPage = new ShopPage();
-const cartPage = new CartPage();
-const basePage = new BasePage(URLS.base_url);
+const shopPage: ShopPage = new ShopPage();
+const cartPage: CartPage = new CartPage();
+const basePage: BasePage = new BasePage(URLS.base_url);
 let productPrices: Cypress.Chainable<Record<string, number>>;
 let calculatedItemQuantitiesAndSubtotals: Cypress.Chainable<Record<string, { price: number; quantity: number; subtotal: number }>>;
 

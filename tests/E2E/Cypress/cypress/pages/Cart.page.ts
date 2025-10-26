@@ -22,7 +22,7 @@ export class CartPage extends BasePage {
       .each(($row) => {
       // Use .within() to scope all commands to the current <tr> element
         cy.wrap($row).within(() => {
-          let productName: string;
+          let productName: string = '';
 
           // 1. Extract Product Name (Text of the first <td>)
           cy.get(this.selectors.product_name)

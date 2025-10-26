@@ -7,16 +7,16 @@ import { BasePage } from '../pages/base.page';
  */
 
 Given('I am on the home page', () => {
-  const basePage = new BasePage(URLS.base_url);
+  const basePage: BasePage = new BasePage(URLS.base_url);
   basePage.visit();
 });
 
 Given('I navigate to the Contact page', () => {
-  const basePage = new BasePage(URLS.base_url);
+  const basePage: BasePage = new BasePage(URLS.base_url);
   basePage.navigateToContactPage();
 });
 
 Given('I navigate to the Shop page', () => {
-  const basePage = new BasePage(URLS.base_url);
+  const basePage: BasePage = new BasePage(URLS.base_url);
   basePage.navigateToShopPage();
 });

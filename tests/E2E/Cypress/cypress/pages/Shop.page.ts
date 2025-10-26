@@ -18,7 +18,7 @@ export class ShopPage extends BasePage {
   }
 
   private purchaseOneGivenItem(productName: string): Cypress.Chainable<boolean> {
-    let cart_counter_before_purchase: number;
+    let cart_counter_before_purchase: number = 0;
 
     return cy.log(`***Purchasing one item: ${productName}`)
       .then(() => this.returnCartCounterValue())
@@ -40,7 +40,7 @@ export class ShopPage extends BasePage {
   }
 
   public purchaseGivenQuantityOfGivenItem(productName: string, quantity: number): Cypress.Chainable<boolean> {
-    let cart_counter_before_purchase: number;
+    let cart_counter_before_purchase: number = 0;
 
     return cy.log(`***Purchasing ${quantity} items: ${productName}`)
       .then(() => this.returnCartCounterValue())
@@ -108,7 +108,7 @@ export class ShopPage extends BasePage {
      * }
      */
   public calculateItemQuantitiesAndSubtotals(catalogPrices: Cypress.Chainable<Record<string, number>>, cartPage: CartPage): Cypress.Chainable<Record<string, { price: number; quantity: number; subtotal: number }>> {
-    return catalogPrices.then((prices) => {
+    return catalogPrices.then((prices: Record<string, number>) => {
       return cartPage.extractCartItems().then((cartItems) => {
         const calculatedItemQuantitiesAndSubtotals: Record<string, { price: number; quantity: number; subtotal: number }> = {};
 
