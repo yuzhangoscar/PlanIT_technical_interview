@@ -4,8 +4,8 @@
   "description": "Cypress E2E testing project for PlanIT technical interview",
   "scripts": {
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
-    "test": "cypress run"
+    "cypress:run": "cypress run --browser chrome --headless",
+    "test": "cypress run --browser chrome --headless"
   },
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^23.2.1",
