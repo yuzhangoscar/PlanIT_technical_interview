@@ -10,54 +10,73 @@ export class BasePage {
     }
 
     public visit(): Cypress.Chainable<Cypress.AUTWindow> {
-        cy.log('***Visiting the URL: ', this.url);
-        return cy.visit(this.url);
+        return cy.log('***Visiting the URL: ', this.url)
+            .visit(this.url);
     }
 
     public getTitle(): Cypress.Chainable<string> {
-        cy.log('***Getting the title');
-        const title = cy.title();
-        cy.log('***Title: ', title);
-        return title;
+        return cy.log('***Getting the title')
+            .title()
+            .then((title) => {
+                cy.log('***Title: ', title);
+                return cy.wrap(title);
+            });
     }
 
     public messageIsDisplayed(message: string): Cypress.Chainable<boolean> {
-        cy.log('***Checking if the message is displayed: ', message);
-        return cy.get(selectors.contact_page.Message, { timeout: 10000 })
+        return cy.log('***Checking if the message is displayed: ', message)
+            .get(selectors.contact_page.Message, { timeout: 10000 })
             .then(($el) => {
-                return $el.text().includes(message) ? true : false;
+                const result = $el.text().includes(message);
+                return cy.wrap(result);
             });
     }
 
     public navigateToHomePage(): Cypress.Chainable<boolean> {
-        cy.log('***Navigating to the Home page');
-        return cy.get(selectors.navigation_menu.home_page).click().then(() => {
-            return cy.url().should('eq', URLS.base_url);
-        })
-        .then(() => {
-            return true;
-        });
+        return cy.log('***Navigating to the Home page')
+            .get(selectors.navigation_menu.home_page)
+            .click()
+            .then(() => {
+                return cy.url().should('eq', URLS.base_url);
+            })
+            .then(() => {
+                return cy.wrap(true);
+            });
     }
 
     public navigateToShopPage(): Cypress.Chainable<boolean> {
-        cy.log('***Navigating to the Shop page');
-        return cy.get(selectors.navigation_menu.shop_page).click()
+        return cy.log('***Navigating to the Shop page')
+            .get(selectors.navigation_menu.shop_page)
+            .click()
             .then(() => {
                 return cy.url().should('eq', URLS.shop_page);
             })
             .then(() => {
-                return true;
+                return cy.wrap(true);
             });
     }
 
     public navigateToContactPage(): Cypress.Chainable<boolean> {
-        cy.log('***Navigating to the Contact page');
-        return cy.get(selectors.navigation_menu.contact_page).click()
-        .then(() => {
-            return cy.url().should('eq', URLS.contact_page);
-        })
-        .then(() => {
-            return true;
-        });
+        return cy.log('***Navigating to the Contact page')
+            .get(selectors.navigation_menu.contact_page)
+            .click()
+            .then(() => {
+                return cy.url().should('eq', URLS.contact_page);
+            })
+            .then(() => {
+                return cy.wrap(true);
+            });
+    }
+
+    public navigateToCartPage(): Cypress.Chainable<boolean> {
+        return cy.log('***Navigating to the Cart page')
+            .get(selectors.navigation_menu.cart_page)
+            .click()
+            .then(() => {
+                return cy.url().should('eq', URLS.cart_page);
+            })
+            .then(() => {
+                return cy.wrap(true);
+            });
     }
 }

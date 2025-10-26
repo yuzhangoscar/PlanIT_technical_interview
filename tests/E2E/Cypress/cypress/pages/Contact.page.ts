@@ -8,22 +8,26 @@ export class ContactPage extends BasePage {
     }
 
     public clickSubmitButton(): Cypress.Chainable<JQuery<HTMLElement>> {
-        cy.log('***Clicking the Submit button');
-        return cy.get(selectors.contact_page.submit).click();
+        return cy.log('***Clicking the Submit button')
+            .get(selectors.contact_page.submit)
+            .click();
     }
 
     public fillForename(forename: string): Cypress.Chainable<JQuery<HTMLElement>> {
-        cy.log('***Filling the Forename field with value: ', forename);
-        return cy.get(selectors.contact_page.Forename).type(forename);
+        return cy.log('***Filling the Forename field with value: ', forename)
+            .get(selectors.contact_page.Forename)
+            .type(forename);
     }
 
     public fillEmail(email: string): Cypress.Chainable<JQuery<HTMLElement>> {
-        cy.log('***Filling the Email field with value: ', email);
-        return cy.get(selectors.contact_page.Email).type(email);
+        return cy.log('***Filling the Email field with value: ', email)
+            .get(selectors.contact_page.Email)
+            .type(email);
     }
 
     public fillMessage(message: string): Cypress.Chainable<JQuery<HTMLElement>> {
-        cy.log('***Filling the Message field with value: ', message);
-        return cy.get(selectors.contact_page.Message).type(message);
+        return cy.log('***Filling the Message field with value: ', message)
+            .get(selectors.contact_page.Message)
+            .type(message);
     }
 }

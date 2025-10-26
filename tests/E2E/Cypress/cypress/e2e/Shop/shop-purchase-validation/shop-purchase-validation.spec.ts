@@ -1,29 +1,35 @@
 import { selectors } from "../../../helpers/selectors";
 import { error_messages, success_messages, URLS } from "../../../helpers/constants";
-import { ContactPage } from "../../../pages/Contact.page";
 import { BasePage } from "../../../pages/base.page";
 import { Given, When, Then, DataTable } from '@badeball/cypress-cucumber-preprocessor';
 import "../../../step-definitions/shared-steps";
+import { ShopPage } from "../../../pages/Shop.page";
+import { CartPage } from "../../../pages/Cart.page";
 
-const contactPage = new ContactPage();
+const shopPage = new ShopPage();
+const cartPage = new CartPage();
 const basePage = new BasePage(URLS.base_url);
 
-When('I click the Submit button', () => {
-    contactPage.clickSubmitButton();
+When('I buy "<Quantity>" of the "<Product Name>"', (dataTable: DataTable) => {
+    const data = dataTable.hashes();
+    data.forEach((row: Record<string, string>) => {
+        const productName = row['Product Name'];
+        const quantity = parseInt(row['Quantity']);
+        shopPage.purchaseGivenQuantityOfGivenItem(productName, quantity);
+    });
 });
 
-Then('I should see error messages for all mandatory fields', (dataTable: DataTable) => {
-    const expectedErrors = dataTable.hashes();
-
-    expectedErrors.forEach((row: Record<string, string>) => {
-        const field = row['Field Name'];
-        const message = row['Error Message'];
-
-        cy.log(`***Checking if the error message for the field: ${field} is visible and contains the message: ${message}`);
-        cy.get(selectors.contact_page[`${field}_error_field` as keyof typeof selectors.contact_page])
-            .should('be.visible')
-            .and('contain', message);
+Then('I should see "<Quantity>" of the "<Product Name>" in the cart', (dataTable: DataTable) => {
+    const data = dataTable.hashes();
+    data.forEach((row: Record<string, string>) => {
+        const productName = row['Product Name'];
+        const quantity = parseInt(row['Quantity']);
+        cartPage.verifyQuantityOfGivenItemInCart(productName, quantity);
     });
+});
+
+Given('I navigate to the Cart page', () => {
+    shopPage.navigateToCartPage();
 });
 
 Then('I fill in the mandatory fields with valid data', (dataTable: DataTable) => {

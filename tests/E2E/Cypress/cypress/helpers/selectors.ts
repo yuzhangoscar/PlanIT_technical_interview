@@ -14,5 +14,12 @@ export const selectors = {
         home_page: 'a:contains("Home")',
         shop_page: 'a:contains("Shop")',
         contact_page: 'a:contains("Contact")',
+        cart_page: 'a:contains("Cart")',
+    },
+    shop_page: {
+        buy_button_for_product: 'a.btn-success:contains("Buy")',
+        cart_counter: 'span.cart-count',
+        product_title: 'h4.product-title',
+        parent_element_of_product_title: 'div',
     }
 }
