@@ -10,13 +10,14 @@ Feature: Shopping Cart Price Verification
     @must-pass @happy-path
     Scenario: Add multiple items to the cart and verify price calculations
         Given I navigate to the Shop page
+        Then I extract all product prices
         When I buy "<Quantity>" of the "<Product Name>"
             | Product Name    | Quantity |
             | Stuffed Frog    | 2        |
             | Fluffy Bunny    | 5        |
             | Valentine Bear  | 3        |
         And I navigate to the Cart page
-        Then I should see "<Quantity>" of the "<Product Name>" in the cart
+        Then I should be able to verify the prices, the quantities and the subtotals are correct
 
     
     # @must-pass @happy-path

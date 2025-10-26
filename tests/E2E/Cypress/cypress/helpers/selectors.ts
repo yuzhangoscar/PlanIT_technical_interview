@@ -1,3 +1,5 @@
+import { CartPage } from "../pages/Cart.page";
+
 export const selectors = {
     contact_page: {
         Forename: 'input#forename',
@@ -21,5 +23,15 @@ export const selectors = {
         cart_counter: 'span.cart-count',
         product_title: 'h4.product-title',
         parent_element_of_product_title: 'div',
-    }
+        item_in_catalog: 'li.product.ng-scope',
+        price: 'span.product-price',
+    },
+    cart_page: {
+        cart_table: 'table.cart-items',
+        cart_row: 'tr.cart-item.ng-scope',
+        product_name: 'td:nth-child(1)',
+        price: 'td:nth-child(2)',
+        quantity: 'td:nth-child(3) > input.input-mini',
+        subtotal: 'td:nth-child(4)',
+    },
 }

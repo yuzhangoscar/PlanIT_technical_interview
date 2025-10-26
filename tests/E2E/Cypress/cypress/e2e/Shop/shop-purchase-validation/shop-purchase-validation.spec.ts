@@ -9,9 +9,19 @@ import { CartPage } from "../../../pages/Cart.page";
 const shopPage = new ShopPage();
 const cartPage = new CartPage();
 const basePage = new BasePage(URLS.base_url);
+let productPrices: Cypress.Chainable<Record<string, number>>;
+let calculatedItemQuantitiesAndSubtotals: Cypress.Chainable<Record<string, { price: number; quantity: number; subtotal: number }>>;
+let displayedItemQuantitiesAndSubtotals: Cypress.Chainable<Record<string, { price: number; quantity: number; subtotal: number }>>;
+
+Then('I extract all product prices', () => {
+    productPrices = shopPage.extractAllProductPrices().then((prices) => {
+        return cy.wrap(prices);
+    });
+});
 
 When('I buy "<Quantity>" of the "<Product Name>"', (dataTable: DataTable) => {
     const data = dataTable.hashes();
+
     data.forEach((row: Record<string, string>) => {
         const productName = row['Product Name'];
         const quantity = parseInt(row['Quantity']);
@@ -19,12 +29,19 @@ When('I buy "<Quantity>" of the "<Product Name>"', (dataTable: DataTable) => {
     });
 });
 
-Then('I should see "<Quantity>" of the "<Product Name>" in the cart', (dataTable: DataTable) => {
-    const data = dataTable.hashes();
-    data.forEach((row: Record<string, string>) => {
-        const productName = row['Product Name'];
-        const quantity = parseInt(row['Quantity']);
-        cartPage.verifyQuantityOfGivenItemInCart(productName, quantity);
+Then('I should be able to verify the prices, the quantities and the subtotals are correct', () => {
+    calculatedItemQuantitiesAndSubtotals = shopPage.calculateItemQuantitiesAndSubtotals(productPrices, cartPage);
+    
+    calculatedItemQuantitiesAndSubtotals.then((calculatedItems) => {
+        cy.log('***Calculated item quantities and subtotals: ', calculatedItems);
+        
+        // Get displayed items and compare
+        cartPage.extractCartItems().then((displayedItems) => {
+            cy.log('***Displayed item quantities and subtotals: ', displayedItems);
+            
+            // Compare the objects (ignoring property order)
+            expect(JSON.stringify(calculatedItems)).to.equal(JSON.stringify(displayedItems));
+        });
     });
 });
 
