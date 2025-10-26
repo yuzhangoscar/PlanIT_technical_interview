@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  cypress:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: planit-cypress
+    volumes:
+      # Mount test results and screenshots/videos to host
+      - ./cypress/screenshots:/app/cypress/screenshots
+      - ./cypress/videos:/app/cypress/videos
+      # Mount tests to allow live editing during development (optional)
+      # - ./tests:/app/tests
+      # - ./cypress.config.ts:/app/cypress.config.ts
+    environment:
+      - CYPRESS_baseUrl=https://jupiter.cloud.planittesting.com
+      - CI=true
+    ipc: host
+    shm_size: '2gb'
+    security_opt:
+      - seccomp:unconfined
+    command: npm run cypress:run
+    networks:
+      - cypress-network
+
+networks:
+  cypress-network:
+    driver: bridge
