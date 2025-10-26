@@ -10,6 +10,21 @@ on:
         required: false
         type: string
         default: 'Manual test run'
+      env:
+        description: 'Environment (e.g., staging, production, dev)'
+        required: false
+        type: string
+        default: 'staging'
+      ver:
+        description: 'Version (e.g., 1.0.0, v2.3.1)'
+        required: false
+        type: string
+        default: '1.0.0'
+      tags:
+        description: 'Tags (e.g., @smoke, @contact and @must-pass)'
+        required: false
+        type: string
+        default: '@smoke'
   push:
     branches:
       - main
@@ -53,6 +68,9 @@ jobs:
       - name: Run Cypress tests in Docker
         run: |
           docker run --rm \
+            -e TAGS="${{ inputs.tags || '@smoke' }}" \
+            -e ENV="${{ inputs.env || 'staging' }}" \
+            -e VER="${{ inputs.ver || '1.0.0' }}" \
             -v ${{ github.workspace }}/cypress/screenshots:/app/cypress/screenshots \
             -v ${{ github.workspace }}/cypress/videos:/app/cypress/videos \
             --ipc=host \
