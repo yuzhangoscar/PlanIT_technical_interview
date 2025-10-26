@@ -78,7 +78,6 @@ docker-test:
 		-v $(PWD)/cypress/screenshots:/app/cypress/screenshots \
 		-v $(PWD)/cypress/videos:/app/cypress/videos \
 		--ipc=host \
-		-e CYPRESS_BROWSER=chrome \
 		planit-cypress:latest
 
 # Open interactive shell in Docker container (for debugging)
