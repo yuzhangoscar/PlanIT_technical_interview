@@ -1,9 +1,11 @@
-.PHONY: help install test test-interactive docker-test docker-build docker-clean clean
+.PHONY: help install test test-interactive lint lint-fix docker-test docker-build docker-clean clean
 
 # Default target - show help
 help:
 	@echo "Local Commands:"
 	@echo "  make install          - Install dependencies"
+	@echo "  make lint             - Run ESLint to check code quality"
+	@echo "  make lint-fix         - Run ESLint and auto-fix issues"
 	@echo "  make test             - Run tests headlessly"
 	@echo "  make test-interactive - Run tests interactively"
 	@echo "  make clean            - Clean screenshots and videos"
@@ -16,6 +18,14 @@ help:
 # Install dependencies
 install:
 	npm install
+
+# Run ESLint to check code quality
+lint:
+	npm run lint
+
+# Run ESLint and auto-fix issues
+lint-fix:
+	npm run lint:fix
 
 # Run Cypress tests headlessly
 test:
