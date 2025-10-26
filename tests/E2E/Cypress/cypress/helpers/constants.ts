@@ -1,31 +1,44 @@
-interface cart_item_details {
+interface CartItemDetails {
     price: number;
     quantity: number;
     subtotal: number;
 }
 
-export interface cart_summary {
-    [product_name: string]: cart_item_details;
+export interface CartSummary {
+    [productName: string]: CartItemDetails;
 }
 
-export const error_messages = {
-  forename: 'Forename is required',
-  email: 'Email is required',
-  message: 'Message is required'
+export const ErrorMessages = {
+  Forename: 'Forename is required',
+  Email: 'Email is required',
+  Message: 'Message is required'
 };
 
 export const URLS = {
-  base_url: 'https://jupiter.cloud.planittesting.com/#/',
-  contact_page: 'https://jupiter.cloud.planittesting.com/#/contact',
-  shop_page: 'https://jupiter.cloud.planittesting.com/#/shop',
-  cart_page: 'https://jupiter.cloud.planittesting.com/#/cart'
-};
+  Home: 'https://jupiter.cloud.planittesting.com/#/',
+  Contact: 'https://jupiter.cloud.planittesting.com/#/contact',
+  Shop: 'https://jupiter.cloud.planittesting.com/#/shop',
+  Cart: 'https://jupiter.cloud.planittesting.com/#/cart'
+} as const;
 
-export const success_messages = {
+/**
+ * Type representing valid page names for navigation
+ */
+export type PageName = keyof typeof URLS;
+
+export const SuccessMessages = {
   submit: 'we appreciate your feedback.'
 };
 
-export const valid_products:string[] = [
+export const ValidProducts:string[] = [
   'Teddy Bear', 'Stuffed Frog', 'Handmade Doll', 'Fluffy Bunny',
   'Smiley Bear', 'Funny Cow', 'Valentine Bear', 'Smiley Face'
 ];
+
+export const CURRENCY_SYMBOL:string = '$';
+
+export const TIMEOUTS = {
+  DEFAULT: 4000,
+  LONG: 10000,
+  SHORT: 2000
+} as const;

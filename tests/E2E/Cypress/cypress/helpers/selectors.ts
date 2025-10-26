@@ -1,35 +1,35 @@
 export const selectors = {
-  contact_page: {
+  ContactPage: {
     Forename: 'input#forename',
-    Forename_error_field: 'span#forename-err',
-    surname: 'input#surname',
+    ForenameErrorField: 'span#forename-err',
+    Surname: 'input#surname',
     Email: 'input#email',
-    Email_error_field: 'span#email-err',
-    telephone: 'input#telephone',
+    EmailErrorField: 'span#email-err',
+    Telephone: 'input#telephone',
     Message: 'textarea#message',
-    Message_error_field: 'span#message-err',
-    submit: 'a.btn-primary:contains("Submit")'
+    MessageErrorField: 'span#message-err',
+    Submit: 'a.btn-primary:contains("Submit")'
   },
-  navigation_menu: {
-    home_page: 'a:contains("Home")',
-    shop_page: 'a:contains("Shop")',
-    contact_page: 'a:contains("Contact")',
-    cart_page: 'a:contains("Cart")'
+  NavigationMenu: {
+    Home: 'a:contains("Home")',
+    Shop: 'a:contains("Shop")',
+    Contact: 'a:contains("Contact")',
+    Cart: 'a:contains("Cart")'
   },
-  shop_page: {
-    buy_button_for_product: 'a.btn-success:contains("Buy")',
-    cart_counter: 'span.cart-count',
-    product_title: 'h4.product-title',
-    parent_element_of_product_title: 'div',
-    item_in_catalog: 'li.product.ng-scope',
-    price: 'span.product-price'
+  ShopPage: {
+    BuyButtonForProduct: 'a.btn-success:contains("Buy")',
+    CartCounter: 'span.cart-count',
+    ProductTitle: 'h4.product-title',
+    ParentElementOfProductTitle: 'div',
+    ItemInCatalog: 'li.product.ng-scope',
+    Price: 'span.product-price'
   },
-  cart_page: {
-    cart_table: 'table.cart-items',
-    cart_row: 'tr.cart-item.ng-scope',
-    product_name: 'td:nth-child(1)',
-    price: 'td:nth-child(2)',
-    quantity: 'td:nth-child(3) > input.input-mini',
-    subtotal: 'td:nth-child(4)'
+  CartPage: {
+    CartTable: 'table.cart-items',
+    CartRow: 'tr.cart-item.ng-scope',
+    ProductName: 'td:nth-child(1)',
+    Price: 'td:nth-child(2)',
+    Quantity: 'td:nth-child(3) > input.input-mini',
+    Subtotal: 'td:nth-child(4)'
   }
 };

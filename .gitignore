@@ -4,3 +4,6 @@ cypress/videos
 
 # Docker
 .dockerignore
+
+# Editor configuration
+.editorconfig

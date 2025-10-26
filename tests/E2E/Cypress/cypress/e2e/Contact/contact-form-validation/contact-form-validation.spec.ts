@@ -1,17 +1,28 @@
-import { selectors } from '../../../helpers/selectors';
-import { success_messages, URLS } from '../../../helpers/constants';
 import { ContactPage } from '../../../pages/Contact.page';
-import { BasePage } from '../../../pages/base.page';
-import { When, Then, DataTable } from '@badeball/cypress-cucumber-preprocessor';
+import { When, Then, DataTable, Before } from '@badeball/cypress-cucumber-preprocessor';
+import { getContactErrorFieldSelector } from '../../../helpers/selector-helpers';
 import '../../../step-definitions/shared-steps';
 
-const contactPage: ContactPage = new ContactPage();
-const basePage: BasePage = new BasePage(URLS.base_url);
+let contactPage: ContactPage;
 
+Before(() => {
+  contactPage = new ContactPage();
+});
+
+/**
+ * Cucumber step: Clicks the Submit button on the contact form
+ * @input None
+ * @output Triggers the submit button click action
+ */
 When('I click the Submit button', () => {
   contactPage.clickSubmitButton();
 });
 
+/**
+ * Cucumber step: Verifies that error messages are displayed for all mandatory fields
+ * @input dataTable - DataTable containing field names and expected error messages
+ * @output Asserts that each error message is visible and contains the expected text
+ */
 Then('I should see error messages for all mandatory fields', (dataTable: DataTable) => {
   const expectedErrors = dataTable.hashes();
 
@@ -20,32 +31,8 @@ Then('I should see error messages for all mandatory fields', (dataTable: DataTab
     const message = row['Error Message'];
 
     cy.log(`***Checking if the error message for the field: ${field} is visible and contains the message: ${message}`);
-    cy.get(selectors.contact_page[`${field}_error_field` as keyof typeof selectors.contact_page])
+    cy.get(getContactErrorFieldSelector(field))
       .should('be.visible')
       .and('contain', message);
   });
-});
-
-Then('I fill in the mandatory fields with valid data', (dataTable: DataTable) => {
-  const data = dataTable.hashes();
-  data.forEach((row: Record<string, string>) => {
-    const field = row['Field Name'];
-    const value = row['Value'];
-    cy.log(`***Filling the field: ${field} with value: ${value}`);
-    cy.get(selectors.contact_page[`${field}` as keyof typeof selectors.contact_page]).type(value);
-  });
-});
-
-Then('No error messages should be visible', (dataTable: DataTable) => {
-  const data = dataTable.raw();
-  data.forEach((row: string[]) => {
-    const field = row[0];
-    cy.log(`***Checking if the error message for the field: ${field} is not found`);
-    cy.get(selectors.contact_page[`${field}_error_field` as keyof typeof selectors.contact_page]).should('not.exist');
-  });
-});
-
-Then('the form submission should be successful', () => {
-  cy.log('***Checking if the form submission was successful');
-  basePage.messageIsDisplayed(success_messages.submit);
 });

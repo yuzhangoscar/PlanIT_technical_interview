@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "lib": ["es5", "dom"],
+        "lib": ["ES2020", "DOM"],
         "allowJs": true,
         "skipLibCheck": true,
         "esModuleInterop": true,
@@ -9,7 +9,7 @@
         "strict": true,
         "forceConsistentCasingInFileNames": true,
         "moduleResolution": "bundler",
-        "module": "es2015",
+        "module": "ESNext",
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,

@@ -1,96 +1,125 @@
 import { BasePage } from './base.page';
 import { selectors } from '../helpers/selectors';
-import { URLS } from '../helpers/constants';
+import { URLS, CURRENCY_SYMBOL } from '../helpers/constants';
 import { CartPage } from './Cart.page';
 
 export class ShopPage extends BasePage {
+  /**
+   * Initializes a new ShopPage instance
+   */
   constructor() {
-    super(URLS.shop_page);
+    super(URLS.Shop);
   }
 
+  /**
+   * Gets the current cart counter value
+   * @returns Cypress chainable containing the cart counter as a number
+   */
   private returnCartCounterValue(): Cypress.Chainable<number> {
     return cy.log('***Returning the cart counter value')
-      .get(selectors.shop_page.cart_counter)
+      .get(selectors.ShopPage.CartCounter)
       .invoke('text')
       .then((text) => {
-        return cy.wrap(parseInt(text));
+        const value = parseInt(text.trim());
+        if (isNaN(value)) {
+          throw new Error(`Invalid cart counter value: ${text}`);
+        }
+        return cy.wrap(value);
       });
   }
 
-  private purchaseOneGivenItem(productName: string): Cypress.Chainable<boolean> {
-    let cart_counter_before_purchase: number = 0;
+  /**
+   * Purchases one unit of a specified product
+   * @param productName - The name of the product to purchase
+   * @returns Cypress chainable containing void after successful purchase
+   */
+  private purchaseOneGivenItem(productName: string): Cypress.Chainable<void> {
+    let cartCounterBeforePurchase: number = 0;
 
-    return cy.log(`***Purchasing one item: ${productName}`)
-      .then(() => this.returnCartCounterValue())
+    cy.log(`***Purchasing one item: ${productName}`);
+
+    // @ts-expect-error - TypeScript incorrectly infers return type from chain start; runtime returns void correctly
+    return this.returnCartCounterValue()
       .then((counterBefore) => {
-        cart_counter_before_purchase = counterBefore;
-        return cy.contains(selectors.shop_page.product_title, productName)
-          .parent(selectors.shop_page.parent_element_of_product_title)
-          .find(selectors.shop_page.buy_button_for_product)
+        cartCounterBeforePurchase = counterBefore;
+        return cy.contains(selectors.ShopPage.ProductTitle, productName)
+          .parent(selectors.ShopPage.ParentElementOfProductTitle)
+          .find(selectors.ShopPage.BuyButtonForProduct)
           .first()
           .click();
       })
-      .then(() => {
-        return this.returnCartCounterValue();
-      })
-      .then((cart_counter_after_purchase) => {
-        return cy.log(`***Purchase successful, purchased one ${productName}`)
-          .wrap(cart_counter_after_purchase - cart_counter_before_purchase === 1);
-      });
-  }
-
-  public purchaseGivenQuantityOfGivenItem(productName: string, quantity: number): Cypress.Chainable<boolean> {
-    let cart_counter_before_purchase: number = 0;
-
-    return cy.log(`***Purchasing ${quantity} items: ${productName}`)
       .then(() => this.returnCartCounterValue())
-      .then((counterBefore) => {
-        cart_counter_before_purchase = counterBefore;
-
-        // Build the purchase chain
-        const purchasePromises: Cypress.Chainable<boolean>[] = [];
-        for (let i = 0; i < quantity; i++) {
-          purchasePromises.push(this.purchaseOneGivenItem(productName));
-        }
-
-        // Chain them sequentially
-        return purchasePromises.reduce((chain, purchasePromise) => {
-          return chain.then(() => purchasePromise);
-        }, cy.wrap(true));
+      .then((cartCounterAfterPurchase) => {
+        expect(cartCounterAfterPurchase - cartCounterBeforePurchase).to.equal(1);
+        cy.log(`***Purchase successful, purchased one ${productName}`);
       })
-      .then(() => {
-        return this.returnCartCounterValue();
-      })
-      .then((cart_counter_after_purchase) => {
-        return cy.log(`***Purchase successful, purchased ${quantity} items: ${productName}`)
-          .wrap(cart_counter_after_purchase - cart_counter_before_purchase === quantity);
-      });
+      .then(() => {});
   }
 
+  /**
+   * Purchases a specified quantity of a given product
+   * @param productName - The name of the product to purchase
+   * @param quantity - The number of items to purchase
+   * @returns Cypress chainable containing void after successful purchase
+   */
+  public purchaseGivenQuantityOfGivenItem(productName: string, quantity: number): Cypress.Chainable<void> {
+    let cartCounterBeforePurchase: number = 0;
+
+    cy.log(`***Purchasing ${quantity} items: ${productName}`);
+
+    // @ts-expect-error - TypeScript incorrectly infers return type from chain start; runtime returns void correctly
+    return this.returnCartCounterValue()
+      .then((counterBefore) => {
+        cartCounterBeforePurchase = counterBefore;
+
+        // Build proper chain sequentially
+        cy.wrap(null);
+        for (let i = 0; i < quantity; i++) {
+          cy.then(() => this.purchaseOneGivenItem(productName));
+        }
+      })
+      .then(() => this.returnCartCounterValue())
+      .then((cartCounterAfterPurchase) => {
+        expect(cartCounterAfterPurchase - cartCounterBeforePurchase).to.equal(quantity);
+        cy.log(`***Purchase successful, purchased ${quantity} items: ${productName}`);
+      })
+      .then(() => {});
+  }
+
+  /**
+   * Extracts all product prices from the shop catalog
+   * @returns Cypress chainable containing an object with product names as keys and prices as values
+   */
   public extractAllProductPrices(): Cypress.Chainable<Record<string, number>> {
     const productPrices: Record<string, number> = {};
 
     cy.log('***Extracting all product prices from catalog');
-    // eslint-disable-next-line cypress/unsafe-to-chain-command
-    return cy.get(selectors.shop_page.product_title)
+    cy.get(selectors.ShopPage.ProductTitle)
       .each(($productTitle) => {
         const productName = $productTitle.text().trim();
 
         // Get the price element for this product
         cy.wrap($productTitle)
-          .parent(selectors.shop_page.parent_element_of_product_title)
-          .find(selectors.shop_page.price)
+          .parent(selectors.ShopPage.ParentElementOfProductTitle)
+          .find(selectors.ShopPage.Price)
           .invoke('text')
           .then((priceText: string) => {
           // Remove '$' and convert to number
-            const price = parseFloat(priceText.replace('$', ''));
+            const price = parseFloat(priceText.replace(CURRENCY_SYMBOL, ''));
+
+            if (isNaN(price) || price <= 0) {
+              throw new Error(`Invalid price for ${productName}: ${priceText}`);
+            }
+
             productPrices[productName] = price;
             cy.log(`Extracted price for ${productName}: $${price}`);
           });
-      }).then(() => {
-        cy.log('***All product prices extracted: ', JSON.stringify(productPrices, null, 2));
-        return cy.wrap(productPrices);
       });
+
+    return cy.then(() => {
+      cy.log('***All product prices extracted: ', JSON.stringify(productPrices, null, 2));
+      return cy.wrap(productPrices);
+    });
   }
 
   /**
@@ -125,6 +154,8 @@ export class ShopPage extends BasePage {
             };
 
             cy.log(`***Calculated subtotal for ${itemName}: Price=${catalogPrice}, Quantity=${cartItem.quantity}, Subtotal=${catalogPrice * cartItem.quantity}`);
+          } else {
+            cy.log(`***Catalog price not found for item: ${itemName}`);
           }
         });
 
