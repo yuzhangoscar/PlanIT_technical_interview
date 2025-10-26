@@ -41,7 +41,7 @@ export class BasePage {
    */
   public navigateToPage(page: PageName): Cypress.Chainable<boolean> {
     cy.log('***Navigating to the page: ', page);
-    cy.get(selectors.NavigationMenu[page]).click();
+    cy.get(selectors.NavigationMenu[page]).first().click();
     return cy.url().should('eq', URLS[page]).then(() => {
       return cy.wrap(true);
     });
