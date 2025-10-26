@@ -18,18 +18,3 @@ Feature: Shopping Cart Price Verification
             | Valentine Bear  | 3        |
         And I navigate to the Cart page
         Then I should be able to verify the prices, the quantities and the subtotals are correct
-
-    
-    # @must-pass @happy-path
-    # Scenario: Verify all cart totals and subtotals
-    #     # NOTE: This scenario relies on the previous 'Scenario Outline' having been run
-    #     # if run independently, the steps below would need to be added to the Outline
-        
-    #     Given I navigate to the Shop page
-    #     When I navigate to the Cart page
-    #     Then I verify the following product details:
-    #         | Product Name    | Price | Subtotal |
-    #         | Stuffed Frog    | $10.99| $21.98   | 
-    #         | Fluffy Bunny    | $9.99 | $49.95   |
-    #         | Valentine Bear  | $14.99| $44.97   |
-    #     And I verify the total price is the sum of all subtotals

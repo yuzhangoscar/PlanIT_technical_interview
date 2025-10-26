@@ -47,6 +47,7 @@ export class BasePage {
     public navigateToShopPage(): Cypress.Chainable<boolean> {
         return cy.log('***Navigating to the Shop page')
             .get(selectors.navigation_menu.shop_page)
+            .first()
             .click()
             .then(() => {
                 return cy.url().should('eq', URLS.shop_page);

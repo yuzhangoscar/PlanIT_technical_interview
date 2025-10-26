@@ -27,6 +27,7 @@ export class ShopPage extends BasePage {
                 return cy.contains(selectors.shop_page.product_title, productName)
                     .parent(selectors.shop_page.parent_element_of_product_title)
                     .find(selectors.shop_page.buy_button_for_product)
+                    .first()
                     .click();
             })
             .then(() => {
