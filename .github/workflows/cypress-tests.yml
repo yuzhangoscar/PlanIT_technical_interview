@@ -1,0 +1,60 @@
+name: Cypress E2E Tests (Docker)
+
+on:
+  workflow_dispatch:
+    inputs:
+      description:
+        description: 'Test run description'
+        required: false
+        type: string
+        default: 'Manual test run'
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  cypress-docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t planit-cypress:latest .
+
+      - name: Run Cypress tests in Docker
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/cypress/screenshots:/app/cypress/screenshots \
+            -v ${{ github.workspace }}/cypress/videos:/app/cypress/videos \
+            --ipc=host \
+            planit-cypress:latest
+
+      - name: Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Upload videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: cypress/videos
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Clean up Docker resources
+        if: always()
+        run: |
+          docker rmi -f planit-cypress:latest || true
