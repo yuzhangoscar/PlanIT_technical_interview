@@ -11,10 +11,10 @@ export const selectors = {
     Submit: 'a.btn-primary:contains("Submit")'
   },
   NavigationMenu: {
-    Home: 'a:contains("Home")',
-    Shop: 'a:contains("Shop")',
-    Contact: 'a:contains("Contact")',
-    Cart: 'a:contains("Cart")'
+    Home: 'a[href="#/home"]',
+    Shop: 'a[href="#/shop"]',
+    Contact: 'a[href="#/contact"]',
+    Cart: 'a[href="#/cart"]'
   },
   ShopPage: {
     BuyButtonForProduct: 'a.btn-success:contains("Buy")',
