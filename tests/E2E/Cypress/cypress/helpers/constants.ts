@@ -39,6 +39,6 @@ export const CURRENCY_SYMBOL:string = '$';
 
 export const TIMEOUTS = {
   DEFAULT: 4000,
-  LONG: 10000,
+  LONG: 20000,
   SHORT: 2000
 } as const;

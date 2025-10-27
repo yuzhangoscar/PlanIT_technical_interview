@@ -1,8 +1,9 @@
 import { DataTable, Given, Then } from '@badeball/cypress-cucumber-preprocessor';
-import { SuccessMessages, URLS } from '../helpers/constants';
+import { SuccessMessages, TIMEOUTS, URLS } from '../helpers/constants';
 import { BasePage } from '../pages/base.page';
 import { ContactPage } from '../pages/Contact.page';
 import { getContactFieldSelector, getContactErrorFieldSelector } from '../helpers/selector-helpers';
+import { selectors } from '../helpers/selectors';
 
 /**
  * Shared step definitions that can be used across multiple feature files
@@ -85,5 +86,6 @@ Then('No error messages should be visible', (dataTable: DataTable) => {
 Then('the form submission should be successful', () => {
   cy.log('***Checking if the form submission was successful');
   const contactPage: ContactPage = new ContactPage();
-  contactPage.messageIsDisplayed(SuccessMessages.submit);
+
+  contactPage.waitForElementWithText(selectors.ContactPage.SuccessSubmitMessageElement, SuccessMessages.submit, TIMEOUTS.LONG);
 });

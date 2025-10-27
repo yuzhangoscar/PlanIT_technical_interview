@@ -2,6 +2,7 @@ import { When, Then, DataTable, Before } from '@badeball/cypress-cucumber-prepro
 import '../../../step-definitions/shared-steps';
 import { ShopPage } from '../../../pages/Shop.page';
 import { CartPage } from '../../../pages/Cart.page';
+import { selectors } from '../../../helpers/selectors';
 
 let shopPage: ShopPage;
 let cartPage: CartPage;
@@ -52,7 +53,22 @@ Then('I should be able to verify the prices, the quantities and the subtotals ar
         cy.log('***Displayed item quantities and subtotals: ', displayedItems);
 
         // Compare the objects (ignoring property order)
-        expect(JSON.stringify(calculatedItems)).to.equal(JSON.stringify(displayedItems));
+        expect(JSON.stringify(calculatedItems), 'What a customer see from Cart page is the same as what a customer ordered from Shop page').to.equal(JSON.stringify(displayedItems));
+
+        // Calculate and verify total amount
+        cy.get(selectors.CartPage.total).invoke('text').then((totalText) => {
+          const totalAmount = parseFloat(totalText.replace('Total: ', ''));
+
+          // Calculate sum of all subtotals from calculatedItems
+          let calculatedTotal = 0;
+          Object.values(calculatedItems).forEach((item) => {
+            calculatedTotal += item.subtotal;
+          });
+
+          // Compare calculated total with displayed total
+          expect(calculatedTotal).to.equal(totalAmount);
+          cy.log(`***Calculated total: $${calculatedTotal}, Displayed total: $${totalAmount}`);
+        });
       });
     });
   });

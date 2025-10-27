@@ -8,7 +8,8 @@ export const selectors = {
     Telephone: 'input#telephone',
     Message: 'textarea#message',
     MessageErrorField: 'span#message-err',
-    Submit: 'a.btn-primary:contains("Submit")'
+    Submit: 'a.btn-primary:contains("Submit")',
+    SuccessSubmitMessageElement: 'div.alert.alert-success'
   },
   NavigationMenu: {
     Home: '#nav-home',
@@ -30,6 +31,7 @@ export const selectors = {
     ProductName: 'td:nth-child(1)',
     Price: 'td:nth-child(2)',
     Quantity: 'td:nth-child(3) > input.input-mini',
-    Subtotal: 'td:nth-child(4)'
+    Subtotal: 'td:nth-child(4)',
+    total: 'strong.total'
   }
 };
