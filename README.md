@@ -101,19 +101,11 @@ make docker-build
 **Headless Mode (CI/CD):**
 ```bash
 make test
-# or
-make cypress-run
-# or
-npm run cypress:run
 ```
 
 **Interactive Mode (Development):**
 ```bash
 make test-interactive
-# or
-make cypress-open
-# or
-npm run cypress:open
 ```
 
 ### Docker Execution
@@ -130,24 +122,6 @@ make docker-test
 make docker-test TAGS="@happy-path"
 make docker-test TAGS="@contact"
 make docker-test TAGS="@smoke @contact"  # Multiple tags with AND logic
-```
-
-**Using Docker Compose:**
-```bash
-# Build and run tests
-make docker-compose-up
-
-# Stop and clean up
-make docker-compose-down
-```
-
-**Debug in Docker:**
-```bash
-# Open interactive shell in container
-make docker-shell
-
-# Then run tests manually inside container
-npm run cypress:run
 ```
 
 ### GitHub Actions Execution
