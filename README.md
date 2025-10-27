@@ -180,6 +180,11 @@ Environment: production
 Version: 2.0.0
 ```
 
+**Note on Environment and Version Parameters:**
+- **ENV (Environment)**: Currently a placeholder for future use. All tests run against the configured staging/production endpoint regardless of this parameter value.
+- **VER (Version)**: Currently a placeholder for future use. Can be set for documentation/reporting purposes but does not affect test execution.
+- **TAGS**: The only parameter that currently affects test execution by filtering which Cucumber scenarios run.
+
 ## Test Scenarios
 
 ### Contact Form Validation
