@@ -20,6 +20,7 @@ This project contains automated end-to-end tests for the PlanIT web application 
   - [💻 Local Execution](#local-execution)
   - [🐳 Docker Execution](#docker-execution)
   - [⚡ GitHub Actions Execution](#github-actions-execution)
+  - [⚠️ Parameter Status](#️-important-parameter-status)
 - [✅ Test Scenarios](#test-scenarios)
   - [📝 Contact Form Validation](#contact-form-validation)
   - [🛒 Shopping Cart Validation](#shopping-cart-validation)
@@ -180,10 +181,23 @@ Environment: production
 Version: 2.0.0
 ```
 
-**Note on Environment and Version Parameters:**
-- **ENV (Environment)**: Currently a placeholder for future use. All tests run against the configured staging/production endpoint regardless of this parameter value.
-- **VER (Version)**: Currently a placeholder for future use. Can be set for documentation/reporting purposes but does not affect test execution.
-- **TAGS**: The only parameter that currently affects test execution by filtering which Cucumber scenarios run.
+**⚠️ Important: Parameter Status**
+
+Currently, only the **TAGS** parameter is fully functional:
+
+| Parameter | Status | Functionality |
+|-----------|--------|---------------|
+| **TAGS** | ✅ Active | Filters which Cucumber scenarios run based on test tags |
+| **ENV** | ⏳ Placeholder | Does not currently affect test execution. All tests run against the default endpoint |
+| **VER** | ⏳ Placeholder | Does not currently affect test execution. Can be set for future use |
+
+**What Works Now:**
+- Use `TAGS` to run specific test suites (e.g., `@contact`, `@happy-path`, `@smoke`)
+- Multiple tags can be combined with spaces: `@smoke @contact`
+
+**Future Enhancements:**
+- `ENV` will be used to switch between different test environments (staging, production, etc.)
+- `VER` will be used to track which application version is being tested
 
 ## Test Scenarios
 
