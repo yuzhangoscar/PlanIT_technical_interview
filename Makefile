@@ -1,5 +1,10 @@
 .PHONY: help install test test-interactive lint lint-fix docker-test docker-build docker-clean clean
 
+# Variables with defaults
+TAGS ?= @smoke
+ENV ?= staging
+VER ?= 1.0.0
+
 # Default target - show help
 help:
 	@echo "Local Commands:"
@@ -12,8 +17,13 @@ help:
 	@echo ""
 	@echo "Docker Commands:"
 	@echo "  make docker-build     - Build Docker image"
-	@echo "  make docker-test      - Run tests in Docker"
+	@echo "  make docker-test      - Run tests in Docker (with optional TAGS, ENV, VER)"
 	@echo "  make docker-clean     - Remove Docker resources"
+	@echo ""
+	@echo "Usage Examples:"
+	@echo "  make docker-test                              # Run with defaults (@smoke, staging, 1.0.0)"
+	@echo "  make docker-test TAGS='@smoke @contact'       # Run multiple tags"
+	@echo "  make docker-test ENV=production VER=2.0.0     # Run with different environment and version"
 
 # Install dependencies
 install:
@@ -46,7 +56,11 @@ docker-build:
 # Run tests in Docker
 docker-test:
 	@docker image inspect planit-cypress:latest >/dev/null 2>&1 || $(MAKE) docker-build
+	@echo "Running tests with TAGS=$(TAGS), ENV=$(ENV), VER=$(VER)"
 	docker run --rm \
+		-e TAGS="$(TAGS)" \
+		-e ENV="$(ENV)" \
+		-e VER="$(VER)" \
 		-v $(PWD)/cypress/screenshots:/app/cypress/screenshots \
 		-v $(PWD)/cypress/videos:/app/cypress/videos \
 		--ipc=host \

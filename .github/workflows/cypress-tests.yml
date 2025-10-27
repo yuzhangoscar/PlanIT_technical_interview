@@ -62,18 +62,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Docker image
-        run: docker build -t planit-cypress:latest .
+        run: make docker-build
 
       - name: Run Cypress tests in Docker
-        run: |
-          docker run --rm \
-            -e TAGS="${{ inputs.tags || '@smoke' }}" \
-            -e ENV="${{ inputs.env || 'staging' }}" \
-            -e VER="${{ inputs.ver || '1.0.0' }}" \
-            -v ${{ github.workspace }}/cypress/screenshots:/app/cypress/screenshots \
-            -v ${{ github.workspace }}/cypress/videos:/app/cypress/videos \
-            --ipc=host \
-            planit-cypress:latest
+        run: make docker-test TAGS="${{ inputs.tags || '@smoke' }}" ENV="${{ inputs.env || 'staging' }}" VER="${{ inputs.ver || '1.0.0' }}"
 
       - name: Upload screenshots on failure
         if: failure()

@@ -20,6 +20,12 @@ export default defineConfig({
         })
       );
 
+      // Read tags from environment variable
+      const tags = process.env.TAGS || '@smoke';
+      config.env.tags = tags;
+
+      console.log(`Running with tags: ${tags}`);
+
       return config;
     }
   }

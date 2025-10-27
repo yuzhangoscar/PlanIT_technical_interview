@@ -42,6 +42,27 @@ ENV CHROMIUM_BIN=/usr/bin/chromium
 
 # Set environment variables
 ENV CYPRESS_CACHE_FOLDER=/root/.cache/Cypress
+ENV TAGS=${TAGS:-@smoke}
+ENV ENV=${ENV:-staging}
+ENV VER=${VER:-1.0.0}
 
-# Default command - run with Chromium browser explicitly
-CMD ["npx", "cypress", "run", "--browser", "chromium", "--config", "chromeWebSecurity=false"]
+# Create entrypoint script to handle dynamic TAGS
+RUN cat > /entrypoint.sh << 'EOF'
+#!/bin/bash
+set -e
+
+# Build cypress run command with tags
+CYPRESS_CMD="npx cypress run --browser chromium --config chromeWebSecurity=false"
+
+if [ -n "$TAGS" ]; then
+  CYPRESS_CMD="$CYPRESS_CMD --env tags=$TAGS"
+fi
+
+echo "Running Cypress with command: $CYPRESS_CMD"
+eval "$CYPRESS_CMD"
+EOF
+
+RUN chmod +x /entrypoint.sh
+
+# Set the entrypoint
+ENTRYPOINT ["/entrypoint.sh"]
