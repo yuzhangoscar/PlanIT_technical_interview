@@ -47,7 +47,7 @@ ENV TEST_ENV=${TEST_ENV:-staging}
 ENV TEST_VER=${TEST_VER:-1.0.0}
 
 # Create entrypoint script to handle dynamic TAGS, TEST_ENV, and TEST_VER
-RUN cat > /entrypoint.sh << 'EOF'
+RUN cat > /entrypoint.sh << 'SCRIPT_EOF'
 #!/bin/bash
 set -e
 
@@ -74,7 +74,7 @@ echo "  TAGS: $TAGS"
 echo "  TEST_ENV: $TEST_ENV"
 echo "  TEST_VER: $TEST_VER"
 eval "$CYPRESS_CMD"
-EOF
+SCRIPT_EOF
 
 RUN chmod +x /entrypoint.sh
 
