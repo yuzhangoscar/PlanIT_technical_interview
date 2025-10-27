@@ -1,5 +1,6 @@
 # PlanIT Technical Interview - Cypress E2E Tests
 
+[![Cypress E2E Tests](https://github.com/yuzhangoscar/PlanIT_technical_interview/actions/workflows/cypress-tests.yml/badge.svg)](https://github.com/yuzhangoscar/PlanIT_technical_interview/actions/workflows/cypress-tests.yml)
 ![Cypress](https://img.shields.io/badge/Cypress-15.5.0-green)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-blue)
 ![Node.js](https://img.shields.io/badge/Node.js-18+-brightgreen)
