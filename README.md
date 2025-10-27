@@ -9,6 +9,23 @@
 
 This project contains automated end-to-end tests for the PlanIT web application using Cypress with Cucumber BDD. It runs on github actions every 30 mins; it can also be cloned and run locally via Docker containers.
 
+## Table of Contents
+
+- [🚀 Quick Start](#quick-start)
+- [📋 Project Overview](#project-overview)
+- [📁 Project Structure](#project-structure)
+- [📋 Prerequisites](#prerequisites)
+- [⚙️ Installation](#installation)
+- [🧪 Running Tests](#running-tests)
+  - [💻 Local Execution](#local-execution)
+  - [🐳 Docker Execution](#docker-execution)
+  - [⚡ GitHub Actions Execution](#github-actions-execution)
+- [✅ Test Scenarios](#test-scenarios)
+  - [📝 Contact Form Validation](#contact-form-validation)
+  - [🛒 Shopping Cart Validation](#shopping-cart-validation)
+- [🛠️ Technology Stack](#technology-stack)
+- [📝 Notes](#notes)
+
 ## Quick Start
 
 **Clone and run tests in 3 commands:**
@@ -104,6 +121,11 @@ make docker-build
 
 # Run tests in Docker container
 make docker-test
+
+# Run tests with specific tags
+make docker-test TAGS="@happy-path"
+make docker-test TAGS="@contact"
+make docker-test TAGS="@smoke @contact"  # Multiple tags with AND logic
 ```
 
 **Using Docker Compose:**
@@ -122,6 +144,40 @@ make docker-shell
 
 # Then run tests manually inside container
 npm run cypress:run
+```
+
+### GitHub Actions Execution
+
+Tests run automatically on every push to `main` and `develop` branches every 30 minutes. You can also trigger manual test runs with custom parameters:
+
+**Trigger Manual Test Run:**
+1. Go to the **Actions** tab on GitHub
+2. Click **Cypress E2E Tests (Docker)** workflow
+3. Click **Run workflow**
+4. Fill in the optional parameters:
+   - **Tags**: Cucumber tags to run (e.g., `@smoke`, `@contact`, `@happy-path`, or `@smoke @contact`)
+   - **Environment**: Target environment (e.g., `staging`, `production`, `dev`)
+   - **Version**: Application version being tested (e.g., `1.0.0`, `2.3.1`)
+5. Click **Run workflow**
+
+**Available Tags:**
+- `@smoke` - Smoke/basic tests (default)
+- `@contact` - Contact form validation tests
+- `@happy-path` - Happy path scenario tests
+- Combine multiple tags with spaces: `@smoke @contact`
+
+**Example Workflows:**
+```bash
+# Run only contact form tests
+Tags: @contact
+
+# Run multiple test suites
+Tags: @smoke @contact
+
+# Run happy path tests in production
+Tags: @happy-path
+Environment: production
+Version: 2.0.0
 ```
 
 ## Test Scenarios
