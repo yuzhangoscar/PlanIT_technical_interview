@@ -32,8 +32,10 @@ This project contains automated end-to-end tests for the PlanIT web application 
 
 **Clone and run tests in 3 commands:**
 
-git clone <repository-url>
-cd PlanIT_technical_interview
+git clone <repository-url>  
+
+cd PlanIT_technical_interview  
+
 make docker-test
 
 **Requirements:** Docker only. No local Node.js or npm installation needed.
